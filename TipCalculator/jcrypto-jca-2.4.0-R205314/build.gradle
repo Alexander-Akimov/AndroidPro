@@ -1,0 +1,2 @@
+configurations.create("default")
+artifacts.add("default", file('jcrypto-jca-2.4.0-R205314.jar'))

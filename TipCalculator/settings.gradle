@@ -1,0 +1,1 @@
+include ':app', ':jcrypto-jca-2.4.0-R205314'
