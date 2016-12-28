@@ -10,7 +10,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 
 import java.util.zip.Inflater;
 
@@ -51,6 +53,18 @@ public class CrimeFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
 
+            }
+        });
+        mDateButton = (Button) v.findViewById(R.id.crime_date);
+        mDateButton.setText(mCrime.getDate().toString());
+        mDateButton.setEnabled(false);
+
+        mSolvedCheckButton = (CheckBox) v.findViewById(R.id.crime_solved);
+        mSolvedCheckButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //Назанчение флага раскрытия преступления
+                mCrime.setSolved(isChecked);
             }
         });
 
