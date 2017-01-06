@@ -14,15 +14,20 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by lex on 12/30/16.
  */
 
 public class CrimeListFragment extends Fragment {
+
+    private static final int REQUEST_CRIME = 1;
     //ViewGroup
     //LinearLayout
     private RecyclerView mCrimeRecyclerView;
     private CrimeAdapter mAdapter;
+    private int mPosition;
 
     @Nullable
     @Override
@@ -50,7 +55,15 @@ public class CrimeListFragment extends Fragment {
             mAdapter = new CrimeAdapter(crimes);
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
-            mAdapter.notifyDataSetChanged();
+
+            mAdapter.notifyItemChanged(mPosition);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_CRIME && resultCode == RESULT_OK) {
+            mPosition = CrimeActivity.getPosition(data);// Обработка результата
         }
     }
 
@@ -61,6 +74,8 @@ public class CrimeListFragment extends Fragment {
         private TextView mDateTextView;
         private CheckBox mSolvedCheckBox;
 
+        private int mPosition;
+
         public CrimeHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
@@ -69,8 +84,9 @@ public class CrimeListFragment extends Fragment {
             mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_crime_solved_check_box);
         }
 
-        public void bindCrime(Crime crime) {
+        public void bindCrime(Crime crime, int position) {
             mCrime = crime;
+            mPosition = position;
             mTitleTextView.setText(mCrime.getTitle());
             mDateTextView.setText(mCrime.getDate().toString());
             mSolvedCheckBox.setChecked(mCrime.isSolved());
@@ -81,9 +97,8 @@ public class CrimeListFragment extends Fragment {
 //            Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!",
 //                    Toast.LENGTH_SHORT).show();
 
-            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId());
-            startActivity(intent);
-
+            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId(), mPosition);
+            startActivityForResult(intent, REQUEST_CRIME);
         }
     }
 
@@ -105,7 +120,7 @@ public class CrimeListFragment extends Fragment {
         @Override
         public void onBindViewHolder(CrimeHolder holder, int position) {
             Crime crime = mCrimes.get(position);
-            holder.bindCrime(crime);
+            holder.bindCrime(crime,  position);
         }
 
         @Override
