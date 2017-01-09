@@ -97,8 +97,10 @@ public class CrimeListFragment extends Fragment {
 //            Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!",
 //                    Toast.LENGTH_SHORT).show();
 
-            Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId(), mPosition);
-            startActivityForResult(intent, REQUEST_CRIME);
+            //Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId(), mPosition);
+            //startActivityForResult(intent, REQUEST_CRIME);
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
+            startActivity(intent);
         }
     }
 
@@ -120,7 +122,7 @@ public class CrimeListFragment extends Fragment {
         @Override
         public void onBindViewHolder(CrimeHolder holder, int position) {
             Crime crime = mCrimes.get(position);
-            holder.bindCrime(crime,  position);
+            holder.bindCrime(crime, position);
         }
 
         @Override
