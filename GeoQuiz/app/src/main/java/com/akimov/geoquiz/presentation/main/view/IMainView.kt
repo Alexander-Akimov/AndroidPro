@@ -1,4 +1,4 @@
-package com.akimov.geoquiz.presentation.view
+package com.akimov.geoquiz.presentation.main.view
 
 /**
  * Created by lex on 9/1/18.
