@@ -9,8 +9,7 @@ import com.akimov.geoquiz.presentation.common.BaseActivity
 
 import com.akimov.geoquiz.presentation.main.presenter.IMainPresenter
 import com.akimov.geoquiz.presentation.main.presenter.MainPresenter
-import com.akimov.geoquiz.presentation.main.view.IMainView
-import kotlinx.android.synthetic.main.activity_quiz.*
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity(), IMainView {
 
@@ -20,7 +19,7 @@ class MainActivity : BaseActivity(), IMainView {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_quiz)
+    setContentView(R.layout.activity_main)
 
     var currentIndex = 0
     if (savedInstanceState != null)
