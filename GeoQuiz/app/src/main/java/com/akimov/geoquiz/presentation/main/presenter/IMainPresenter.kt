@@ -1,5 +1,6 @@
 package com.akimov.geoquiz.presentation.main.presenter
 
+import com.akimov.geoquiz.domain.models.Question
 import com.akimov.geoquiz.presentation.main.view.IMainView
 
 /**
@@ -11,6 +12,10 @@ interface IMainPresenter {
   fun setCurrentIndex(currentIndex: Int)
   fun getCurrentIndex(): Int
   fun answerSelected(answer: Boolean)
-  fun prevQuestion()
-  fun nextQuestion()
+
+  fun cheatBtnClicked()
+
+
+  fun getNextQuestion()
+  fun getPreviousQuestion()
 }
