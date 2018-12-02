@@ -6,28 +6,39 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.ViewModelProviders
 import com.akimov.geoquiz.R
+import com.akimov.geoquiz.presentation.cheat.CheatActivityViewModel
+
 import kotlinx.android.synthetic.main.activity_cheat.*
 
 class CheatActivity : AppCompatActivity() {
 
-  private var mAnswerIsTrue: Boolean = false
+  private lateinit var cheatViewModel: CheatActivityViewModel
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_cheat)
 
-    mAnswerIsTrue = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
+    cheatViewModel = ViewModelProviders.of(this).get(CheatActivityViewModel::class.java)
+
+    cheatViewModel.rightAnswer = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
+
+    if (cheatViewModel.isAnswerShown) showRightAnswer()
+  }
+
+  fun showRightAnswer() {
+    answer_textView.setText(cheatViewModel.getAnswer())
+    setAnswerShowResult()
   }
 
   fun onShowAnswerBtnClicked(view: View) {
-    answer_textView.setText(if (mAnswerIsTrue) R.string.true_button else R.string.false_button)
-    setAnswerShowResult(true)
+    showRightAnswer()
   }
 
-  private fun setAnswerShowResult(isAnswerShown: Boolean) {
+  private fun setAnswerShowResult() {
     val data = Intent()
-    data.putExtra(EXTRA_ANSWER_SHOWN, isAnswerShown)
+    data.putExtra(EXTRA_ANSWER_SHOWN, true)
     setResult(Activity.RESULT_OK, data)
   }
 

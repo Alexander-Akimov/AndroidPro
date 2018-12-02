@@ -28,15 +28,15 @@ class MainActivityViewModel : ViewModel(), IMainView {
   var currentQuestion: LiveData<Question> = mutableCurrentQuestion
 
   private var mutableAnswerCheckResult: MutableLiveData<Int> = MutableLiveData()
-  override var checkResult: Int //val checkResult: LiveData<Int> = mutableAnswerCheckResult
+  override var checkResult: Int//val checkResult: LiveData<Int> = mutableAnswerCheckResult
     get() = mutableAnswerCheckResult.value!!
     set(value) {
       mutableAnswerCheckResult.value = value
     }
 
   private var mutableIsCheater: MutableLiveData<Boolean> = MutableLiveData()
-  override var isCheater: Boolean  //private val isCheater: LiveData<Boolean> = mutableIsCheater
-    get() = mutableIsCheater.value!!
+  override var isCheater: Boolean//private val isCheater: LiveData<Boolean> = mutableIsCheater
+    get() = mutableIsCheater.value ?: false
     set(value) {
       mutableIsCheater.value = value
     }
