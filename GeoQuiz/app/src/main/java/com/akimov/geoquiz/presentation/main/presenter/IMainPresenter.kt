@@ -8,14 +8,11 @@ import com.akimov.geoquiz.presentation.main.view.IMainView
  */
 interface IMainPresenter {
   fun setView(view: IMainView)
-  fun updateQuestion()
-  fun setCurrentIndex(currentIndex: Int)
-  fun getCurrentIndex(): Int
+
+  fun renderQuestion()
   fun answerSelected(answer: Boolean)
-
-  fun cheatBtnClicked()
-
-
   fun getNextQuestion()
   fun getPreviousQuestion()
+
+  fun setData(allQuestions: List<Question>)
 }

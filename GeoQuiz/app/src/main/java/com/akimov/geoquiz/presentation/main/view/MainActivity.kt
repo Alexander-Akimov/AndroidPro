@@ -1,12 +1,12 @@
 package com.akimov.geoquiz.presentation.main.view
 
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.akimov.geoquiz.R
@@ -14,16 +14,9 @@ import com.akimov.geoquiz.domain.models.Question
 import com.akimov.geoquiz.presentation.cheat.view.CheatActivity
 import com.akimov.geoquiz.presentation.common.BaseActivity
 import com.akimov.geoquiz.presentation.main.MainActivityViewModel
-
-import com.akimov.geoquiz.presentation.main.presenter.IMainPresenter
-import com.akimov.geoquiz.presentation.main.presenter.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseActivity() {
-
-  // private lateinit var mainPresenter: IMainPresenter
-
-  //private val KEY_INDEX: String = "index"
 
   private lateinit var viewModel: MainActivityViewModel
 
@@ -34,15 +27,6 @@ class MainActivity : BaseActivity() {
     // Get the ViewModel
     viewModel = ViewModelProviders.of(this).get(MainActivityViewModel::class.java)
 
-//    var currentIndex = 0
-//    if (savedInstanceState != null)
-//      currentIndex = savedInstanceState.getInt(KEY_INDEX, 0)
-
-//    mainPresenter = MainPresenter()
-//    mainPresenter.setView(this)
-//    mainPresenter.setCurrentIndex(currentIndex)
-//    mainPresenter.updateQuestion()
-
     val questionObserver = Observer<Question> { newQustion ->
       question_text_view.text = newQustion.questionText
     }
@@ -52,44 +36,10 @@ class MainActivity : BaseActivity() {
     viewModel.buttonsEnabled.observe(this, Observer<Boolean> {
       enableButtons(it)
     })
-
-    viewModel.showAnswer.observe(this, Observer<Int> {
-      showAnswer(it)
-    })
-
-    viewModel.showNextQuestion()
-
 //    viewModel.viewState.observe(this, Observer<ViewState> {
 //      updateState(it)
 //    })
-
   }
-
-  fun enableButtons(isEnabled: Boolean) {
-    trueBtn.isEnabled = isEnabled
-    falseBtn.isEnabled = isEnabled
-  }
-
-//  override fun onSaveInstanceState(outState: Bundle?) {
-//    super.onSaveInstanceState(outState)
-//    Log.d(TAG, "onSaveInstanceState")
-//
-//    outState?.putInt(KEY_INDEX, mainPresenter.getCurrentIndex())
-//  }
-
-  /*override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-    super.onRestoreInstanceState(savedInstanceState)
-    Log.d(TAG, "onRestoreInstanceState")
-
-    if (savedInstanceState != null)
-      mCurrentIndex = savedInstanceState.getInt(KEY_INDEX, 0)
-    updateQuestion()
-  }*/
-
-//  fun showNewQuestion(question: Int) {
-//    question_text_view.setText(question)
-//  }
-
 
   private fun showAnswer(messageResId: Int) {
     Toast.makeText(this, messageResId, Toast.LENGTH_SHORT).show()
@@ -97,10 +47,12 @@ class MainActivity : BaseActivity() {
 
   fun onTrueBtnClicked(view: View) {
     viewModel.answerSelected(true)
+    showAnswer(viewModel.checkResult)
   }
 
   fun onFalseBtnClicked(view: View) {
     viewModel.answerSelected(false)
+    showAnswer(viewModel.checkResult)
   }
 
   fun onNextClicked(view: View) {
@@ -111,20 +63,34 @@ class MainActivity : BaseActivity() {
     viewModel.showPreviousQuestion()
   }
 
-  fun onCheatBtnClicked(view: View) {
-    //  mainPresenter.cheatBtnClicked()
+  fun enableButtons(isEnabled: Boolean) {
+    trueBtn.isEnabled = isEnabled
+    falseBtn.isEnabled = isEnabled
   }
 
-  fun showCheatScreen() {//start cheat activity
-    val intent: Intent = CheatActivity.newIntent(this)
-    startActivity(intent)
+  fun onCheatBtnClicked(view: View) {//start cheat activity
+    val intent: Intent = CheatActivity.newIntent(this, viewModel.answer)
+    startActivityForResult(intent, Companion.REQUEST_CODE_CHEAT)
   }
 
+  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    if (resultCode != Activity.RESULT_OK) {
+      return;
+    }
+    if (requestCode == REQUEST_CODE_CHEAT) {
+      if (data == null) {
+        return;
+      }
+      viewModel.isCheater = CheatActivity.wasAnswerShown(data)
+    }
+  }
 
-
-//  private fun updateState(state: ViewState) {
-//    trueBtn.isEnabled = state.buttonsEnabled
-//    falseBtn.isEnabled = state.buttonsEnabled
-//    cheat_button.isEnabled = state.allowCheat
+  companion object {
+    //private val KEY_INDEX: String = "index"
+    private val REQUEST_CODE_CHEAT = 0
+  }
+//  fun showCheatScreen() {
+//    val intent: Intent = CheatActivity.newIntent(this, viewModel.getAnswer() )
+//    startActivity(intent)
 //  }
 }

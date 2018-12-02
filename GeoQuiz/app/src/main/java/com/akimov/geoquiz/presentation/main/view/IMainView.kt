@@ -8,6 +8,6 @@ import com.akimov.geoquiz.domain.models.Question
 interface IMainView {
   fun showQuestion(question: Question)
   fun enableButtons(isEnabled: Boolean)
-  fun showAnswer(messageResId: Int)
-  fun showCheatScreen()
+  var isCheater: Boolean //Instead fun showCheatScreen()
+  var checkResult: Int //Instead fun setAnswerCheckResult(messageResId: Int)//Instead showAnswer(messageResId: Int)
 }

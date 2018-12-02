@@ -15,13 +15,5 @@
         android:name="com.akimov.geoquiz.presentation.main.view.MainActivity"
         android:label="activity_quiz"
         tools:layout="@layout/activity_main" />
-    <fragment
-        android:id="@+id/cheatFragment"
-        android:name="com.akimov.geoquiz.CheatFragment"
-        android:label="fragment_cheat"
-        tools:layout="@layout/fragment_cheat">
-        <action
-            android:id="@+id/action_cheatFragment_to_mainActivity"
-            app:destination="@id/mainActivity" />
-    </fragment>
+
 </navigation>

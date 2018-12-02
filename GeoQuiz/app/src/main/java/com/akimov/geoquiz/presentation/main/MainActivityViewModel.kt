@@ -4,22 +4,19 @@ package com.akimov.geoquiz.presentation.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.akimov.geoquiz.data.repositories.QuestionRepository
 import com.akimov.geoquiz.domain.models.Question
+import com.akimov.geoquiz.domain.repositories.IQuestionRepository
 
 import com.akimov.geoquiz.presentation.main.presenter.IMainPresenter
 import com.akimov.geoquiz.presentation.main.presenter.MainPresenter
 import com.akimov.geoquiz.presentation.main.view.IMainView
-import com.akimov.geoquiz.presentation.main.view.ViewState
 
 class MainActivityViewModel : ViewModel(), IMainView {
 
   private lateinit var mainPresenter: IMainPresenter
 
-  private var mutableCurrentQuestion: MutableLiveData<Question> = MutableLiveData()
-  var currentQuestion: LiveData<Question> = mutableCurrentQuestion
-
-  private var mutableShowAnswer: MutableLiveData<Int> = MutableLiveData()
-  val showAnswer: LiveData<Int> = mutableShowAnswer
+  private lateinit var mainRepository: IQuestionRepository
 
 //  private var mutableViewState: MutableLiveData<ViewState> = MutableLiveData()
 //  val viewState: LiveData<ViewState> = mutableViewState
@@ -27,21 +24,36 @@ class MainActivityViewModel : ViewModel(), IMainView {
   private var mutableEnableButtons: MutableLiveData<Boolean> = MutableLiveData()
   val buttonsEnabled: LiveData<Boolean> = mutableEnableButtons
 
-  init {
-    mainPresenter = MainPresenter()
-    mainPresenter.setView(this)
-  }
+  private var mutableCurrentQuestion: MutableLiveData<Question> = MutableLiveData()
+  var currentQuestion: LiveData<Question> = mutableCurrentQuestion
 
-  override fun showAnswer(messageResId: Int) {
-    mutableShowAnswer.value = messageResId
+  private var mutableAnswerCheckResult: MutableLiveData<Int> = MutableLiveData()
+  override var checkResult: Int //val checkResult: LiveData<Int> = mutableAnswerCheckResult
+    get() = mutableAnswerCheckResult.value!!
+    set(value) {
+      mutableAnswerCheckResult.value = value
+    }
+
+  private var mutableIsCheater: MutableLiveData<Boolean> = MutableLiveData()
+  override var isCheater: Boolean  //private val isCheater: LiveData<Boolean> = mutableIsCheater
+    get() = mutableIsCheater.value!!
+    set(value) {
+      mutableIsCheater.value = value
+    }
+
+  var answer: Boolean = false
+    get() = currentQuestion.value?.isAnswerTrue ?: false
+
+  init {
+    mainRepository = QuestionRepository()
+    mainPresenter = MainPresenter()
+    mainPresenter.setData(mainRepository.getAllQuestions())
+    mainPresenter.setView(this)
+    mainPresenter.renderQuestion()
   }
 
   override fun enableButtons(isEnabled: Boolean) {
     mutableEnableButtons.value = isEnabled
-  }
-
-  override fun showCheatScreen() {
-
   }
 
   override fun showQuestion(question: Question) {
@@ -50,10 +62,12 @@ class MainActivityViewModel : ViewModel(), IMainView {
 
   fun showPreviousQuestion() {
     mainPresenter.getPreviousQuestion()
+    isCheater = false
   }
 
   fun showNextQuestion() {
     mainPresenter.getNextQuestion()
+    isCheater = false
   }
 
   fun answerSelected(answer: Boolean) {
@@ -63,5 +77,4 @@ class MainActivityViewModel : ViewModel(), IMainView {
   fun allowCheating() {
 
   }
-
 }
