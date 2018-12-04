@@ -16,8 +16,6 @@ class MainActivityViewModel : ViewModel(), IMainView {
 
   private lateinit var mainPresenter: IMainPresenter
 
-  private lateinit var mainRepository: IQuestionRepository
-
 //  private var mutableViewState: MutableLiveData<ViewState> = MutableLiveData()
 //  val viewState: LiveData<ViewState> = mutableViewState
 
@@ -45,9 +43,7 @@ class MainActivityViewModel : ViewModel(), IMainView {
     get() = currentQuestion.value?.isAnswerTrue ?: false
 
   init {
-    mainRepository = QuestionRepository()
     mainPresenter = MainPresenter()
-    mainPresenter.setData(mainRepository.getAllQuestions())
     mainPresenter.setView(this)
     mainPresenter.renderQuestion()
   }

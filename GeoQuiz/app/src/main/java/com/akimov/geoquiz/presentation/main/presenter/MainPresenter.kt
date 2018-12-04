@@ -1,7 +1,9 @@
 package com.akimov.geoquiz.presentation.main.presenter
 
 import com.akimov.geoquiz.R
+import com.akimov.geoquiz.data.repositories.QuestionRepository
 import com.akimov.geoquiz.domain.models.Question
+import com.akimov.geoquiz.domain.repositories.IQuestionRepository
 import com.akimov.geoquiz.presentation.main.view.IMainView
 
 /**
@@ -11,17 +13,26 @@ class MainPresenter : IMainPresenter {
 
   private lateinit var mainView: IMainView
 
+  private lateinit var mainRepository: IQuestionRepository
+
   private var mCurrentIndex = 0
 
   private lateinit var mQuestionList: List<Question>
+
+  init {
+    mainRepository = QuestionRepository()
+    mQuestionList = mainRepository.getAllQuestions()
+  }
 
   override fun setView(view: IMainView) {
     this.mainView = view
   }
 
   override fun renderQuestion() {
-    mainView.showQuestion(mQuestionList[mCurrentIndex])
-    mainView.enableButtons(true)
+    mQuestionList[mCurrentIndex].apply {
+      mainView.showQuestion(this)
+      mainView.enableButtons(!isAnswerShown)
+    }
   }
 
   override fun getPreviousQuestion() {
@@ -39,6 +50,11 @@ class MainPresenter : IMainPresenter {
 
   override fun answerSelected(answer: Boolean) {
     checkAnswer(answer)
+
+    val qst = mQuestionList[mCurrentIndex]
+    qst.isAnswerShown = true
+    mainRepository.updateQuestion(qst)
+
     mainView.enableButtons(false)
   }
 

@@ -4,4 +4,5 @@ import com.akimov.geoquiz.domain.models.Question
 
 interface IQuestionRepository {
   fun getAllQuestions(): List<Question>
+  fun updateQuestion(question: Question): Boolean
 }

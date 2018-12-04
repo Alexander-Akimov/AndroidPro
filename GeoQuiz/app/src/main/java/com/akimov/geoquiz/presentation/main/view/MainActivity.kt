@@ -4,7 +4,6 @@ package com.akimov.geoquiz.presentation.main.view
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -66,6 +65,7 @@ class MainActivity : BaseActivity() {
   fun enableButtons(isEnabled: Boolean) {
     trueBtn.isEnabled = isEnabled
     falseBtn.isEnabled = isEnabled
+    cheatBtn.isEnabled = isEnabled
   }
 
   fun onCheatBtnClicked(view: View) {//start cheat activity
