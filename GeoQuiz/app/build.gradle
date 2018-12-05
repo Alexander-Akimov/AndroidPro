@@ -18,7 +18,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    // sourceSets{ main.java.srcDirs += 'src/main/kotlin' }
+     sourceSets{ main.java.srcDirs += 'src/main/kotlin' }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -31,6 +31,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     //kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
     //androidx
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'

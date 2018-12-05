@@ -10,8 +10,8 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.akimov.geoquiz.R
 import com.akimov.geoquiz.presentation.cheat.CheatActivityViewModel
-
 import kotlinx.android.synthetic.main.activity_cheat.*
+
 
 class CheatActivity : AppCompatActivity() {
 
