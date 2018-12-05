@@ -3,6 +3,7 @@ package com.akimov.geoquiz.presentation.cheat.view
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -25,6 +26,8 @@ class CheatActivity : AppCompatActivity() {
     cheatViewModel.rightAnswer = intent.getBooleanExtra(EXTRA_ANSWER_IS_TRUE, false)
 
     if (cheatViewModel.isAnswerShown) showRightAnswer()
+
+    txtViewSdkVersion.text = resources.getString(R.string.sdk_version, Build.VERSION.SDK_INT)
   }
 
   fun showRightAnswer() {
