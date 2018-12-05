@@ -1,6 +1,6 @@
 package kg.dostek.criminalintent;
 
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 
 /**
  * Created by lex on 12/29/16.
