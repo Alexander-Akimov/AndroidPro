@@ -49,10 +49,19 @@ public class CrimeListFragment extends Fragment {
     }
 
     private void updateUI() {
+        ItemViewClick handle = (Crime cr) -> {
+            //Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!",  Toast.LENGTH_SHORT).show();
+            //Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId(), mPosition);
+            //startActivityForResult(intent, REQUEST_CRIME);
+
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), cr.getId());
+            startActivity(intent);
+        };
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
         if (mAdapter == null) {
-            mAdapter = new CrimeAdapter(crimes);
+
+            mAdapter = new CrimeAdapter(crimes, handle);
             mCrimeRecyclerView.setAdapter(mAdapter);
         } else {
 
@@ -67,48 +76,13 @@ public class CrimeListFragment extends Fragment {
         }
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private Crime mCrime;
-
-        private TextView mTitleTextView;
-        private TextView mDateTextView;
-        private CheckBox mSolvedCheckBox;
-
-        private int mPosition;
-
-        public CrimeHolder(View itemView) {
-            super(itemView);
-            itemView.setOnClickListener(this);
-            mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_crime_title_text_view);
-            mDateTextView = (TextView) itemView.findViewById(R.id.list_item_crime_date_text_view);
-            mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_crime_solved_check_box);
-        }
-
-        public void bindCrime(Crime crime, int position) {
-            mCrime = crime;
-            mPosition = position;
-            mTitleTextView.setText(mCrime.getTitle());
-            mDateTextView.setText(mCrime.getDate().toString());
-            mSolvedCheckBox.setChecked(mCrime.isSolved());
-        }
-
-        @Override
-        public void onClick(View view) {
-//            Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!",
-//                    Toast.LENGTH_SHORT).show();
-
-            //Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId(), mPosition);
-            //startActivityForResult(intent, REQUEST_CRIME);
-            Intent intent = CrimePagerActivity.newIntent(getActivity(), mCrime.getId());
-            startActivity(intent);
-        }
-    }
-
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
         private List<Crime> mCrimes;
+        private final ItemViewClick mItemClick;
 
-        public CrimeAdapter(List<Crime> crimes) {
+        public CrimeAdapter(List<Crime> crimes, ItemViewClick itemClick) {
             mCrimes = crimes;
+            mItemClick = itemClick;
         }
 
         @Override
@@ -116,7 +90,7 @@ public class CrimeListFragment extends Fragment {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             View view = layoutInflater.inflate(R.layout.list_item_crime, parent, false);
 
-            return new CrimeHolder(view);
+            return new CrimeHolder(view, mItemClick);
         }
 
         @Override
@@ -128,6 +102,36 @@ public class CrimeListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mCrimes.size();
+        }
+    }
+
+    private class CrimeHolder extends RecyclerView.ViewHolder {
+        private Crime mCrime;
+
+        private TextView mTitleTextView;
+        private TextView mDateTextView;
+        private CheckBox mSolvedCheckBox;
+        private final ItemViewClick mItemClick;
+
+        private int mPosition;
+
+        public CrimeHolder(View itemView, ItemViewClick itemClick) {
+            super(itemView);
+            mItemClick = itemClick;
+
+            mTitleTextView = (TextView) itemView.findViewById(R.id.list_item_crime_title_text_view);
+            mDateTextView = (TextView) itemView.findViewById(R.id.list_item_crime_date_text_view);
+            mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.list_item_crime_solved_check_box);
+        }
+
+        public void bindCrime(Crime crime, int position) {
+            mCrime = crime;
+            mPosition = position;
+            mTitleTextView.setText(mCrime.getTitle());
+            mDateTextView.setText(mCrime.getDate().toString());
+            mSolvedCheckBox.setChecked(mCrime.isSolved());
+
+            itemView.setOnClickListener((view) -> mItemClick.handleClick(crime));
         }
     }
 }
