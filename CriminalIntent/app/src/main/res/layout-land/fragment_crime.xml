@@ -5,13 +5,14 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/crimeTitleTextView"
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/crime_title_label" />
 
     <EditText
-        android:id="@+id/crime_title"
+        android:id="@+id/crimeTitleEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -19,6 +20,7 @@
         android:hint="@string/crime_title_hint" />
 
     <TextView
+        android:id="@+id/crimeDetailsTextView"
         style="?android:listSeparatorTextViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,13 +34,13 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/crime_date"
+            android:id="@+id/crimeDateBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"/>
 
         <CheckBox
-            android:id="@+id/crime_solved"
+            android:id="@+id/crimeSolvedChBx"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
