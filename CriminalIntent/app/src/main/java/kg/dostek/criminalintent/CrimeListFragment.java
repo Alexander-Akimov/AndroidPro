@@ -76,7 +76,7 @@ public class CrimeListFragment extends Fragment {
         }
     }
 
-    private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
+    private class CrimeAdapter extends RecyclerView.Adapter<CrimeViewHolder> {
         private List<Crime> mCrimes;
         private final ItemViewClick mItemClick;
 
@@ -86,15 +86,15 @@ public class CrimeListFragment extends Fragment {
         }
 
         @Override
-        public CrimeHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public CrimeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
             View view = layoutInflater.inflate(R.layout.list_item_crime, parent, false);
 
-            return new CrimeHolder(view, mItemClick);
+            return new CrimeViewHolder(view, mItemClick);
         }
 
         @Override
-        public void onBindViewHolder(CrimeHolder holder, int position) {
+        public void onBindViewHolder(CrimeViewHolder holder, int position) {
             Crime crime = mCrimes.get(position);
             holder.bindCrime(crime, position);
         }
@@ -105,7 +105,7 @@ public class CrimeListFragment extends Fragment {
         }
     }
 
-    private class CrimeHolder extends RecyclerView.ViewHolder {
+    private class CrimeViewHolder extends RecyclerView.ViewHolder {
         private Crime mCrime;
 
         private TextView mTitleTextView;
@@ -115,7 +115,7 @@ public class CrimeListFragment extends Fragment {
 
         private int mPosition;
 
-        public CrimeHolder(View itemView, ItemViewClick itemClick) {
+        public CrimeViewHolder(View itemView, ItemViewClick itemClick) {
             super(itemView);
             mItemClick = itemClick;
 
@@ -125,6 +125,7 @@ public class CrimeListFragment extends Fragment {
         }
 
         public void bindCrime(Crime crime, int position) {
+
             mCrime = crime;
             mPosition = position;
             mTitleTextView.setText(mCrime.getTitle());

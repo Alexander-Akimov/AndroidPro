@@ -50,4 +50,6 @@ dependencies {
 
     //kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+
+    implementation 'com.jakewharton.rxbinding3:rxbinding-recyclerview:3.0.0-alpha1'
 }

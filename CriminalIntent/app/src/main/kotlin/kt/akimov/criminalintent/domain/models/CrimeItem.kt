@@ -10,8 +10,9 @@ import java.util.UUID.randomUUID
 //    private var mDate: Date = Date(),
 //    private var mSolved: Boolean)
 
-data class Crime(var title: String? = null,
-                 var isSolved: Boolean = false) {
+data class CrimeItem(var title: String? = null,
+                     var isSolved: Boolean = false,
+                     var requiresPolice: Boolean = false) {
 
   var id: UUID = UUID.randomUUID()
   var date: Date? = null

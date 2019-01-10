@@ -9,19 +9,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--<activity android:name=".CrimeListActivity">-->
-        <activity android:name="kt.akimov.criminalintent.presentation.CrimeActivity">
+        <activity android:name="kt.akimov.criminalintent.presentation.crimelist.CrimeListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name="kt.akimov.criminalintent.presentation.crimeitem.CrimeActivity">
+
+        </activity>
+
         <activity
             android:name=".CrimePagerActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-
         </activity>
     </application>
 
