@@ -10,14 +10,15 @@
         android:theme="@style/AppTheme">
 
         <activity android:name="kt.akimov.criminalintent.presentation.crimelist.CrimeListActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
 
         <activity android:name="kt.akimov.criminalintent.presentation.crimeitem.CrimeActivity">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.VIEW" />
+            </intent-filter>
         </activity>
 
         <activity

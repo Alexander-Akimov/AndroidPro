@@ -26,10 +26,10 @@ class CrimeAdapter : RecyclerView.Adapter<CrimeAdapter.CrimeBaseViewHolder>() {
     return when (viewType) {
       CrimeViewType.RequiresPolice.value -> CrimeViewHolder(
           layoutInflater.inflate(R.layout.list_item_crime_police, parent, false)
-      ).listen { position, type -> onItemClick.invoke(crimesList[position]) }
+      ).listen { position, _ -> onItemClick.invoke(crimesList[position]) }
       else -> CrimeRequiresPoliceViewHolder(
           layoutInflater.inflate(R.layout.list_item_crime, parent, false)
-      ).listen { position, type -> onItemClick.invoke(crimesList[position]) }
+      ).listen { position, _ -> onItemClick.invoke(crimesList[position]) }
     }
   }
 

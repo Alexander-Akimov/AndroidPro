@@ -7,22 +7,20 @@ import kg.dostek.criminalintent.R
 
 abstract class SingleFragmentActivity : AppCompatActivity() {//FragmentActivity()
 
-  protected abstract fun createFragment(): Fragment
+	protected abstract fun createFragment(): Fragment
 
-  override fun onCreate(savedInstanceState: Bundle?) {
-    super.onCreate(savedInstanceState)
-    setContentView(R.layout.activity_fragment)
+	override fun onCreate(savedInstanceState: Bundle?) {
+		super.onCreate(savedInstanceState)
+		setContentView(R.layout.activity_fragment)
 
-    val fm = supportFragmentManager
-    var fragment = fm.findFragmentById(R.id.fragmentContainer)
+		val fm = supportFragmentManager
+		var fragment = fm.findFragmentById(R.id.fragmentContainer)
 
-    if (fragment == null) {
-      fragment = createFragment()
-      fm.beginTransaction()
-          .add(R.id.fragmentContainer, fragment)
-          .commit()
-    }
-  }
+		if (fragment == null) {
+			fragment = createFragment()
+			fm.beginTransaction()
+					.add(R.id.fragmentContainer, fragment)
+					.commit()/**/
+		}
+	}
 }
-
-

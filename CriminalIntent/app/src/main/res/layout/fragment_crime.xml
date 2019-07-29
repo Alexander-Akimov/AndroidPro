@@ -28,11 +28,13 @@
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:hint="@string/crime_title_hint"
+        android:importantForAutofill="no"
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crimeTitleTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/crimeTitleTextView"
+        tools:targetApi="o" />
 
     <TextView
         android:id="@+id/crimeDetailsTextView"

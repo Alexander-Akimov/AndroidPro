@@ -4,7 +4,7 @@ import java.util.*
 import java.util.UUID.randomUUID
 
 
-//data class Crimew(
+//data class Crime(
 //    private var mID: UUID = UUID.randomUUID(),
 //    private var mTitle: String,
 //    private var mDate: Date = Date(),
@@ -14,7 +14,7 @@ data class CrimeItem(var title: String? = null,
                      var isSolved: Boolean = false,
                      var requiresPolice: Boolean = false) {
 
-  var id: UUID = UUID.randomUUID()
+  var id: UUID = randomUUID()
   var date: Date? = null
 
   init {
