@@ -25,12 +25,10 @@ class CrimeFragment : Fragment() {
 	override fun onCreate(savedInstanceState: Bundle?) {
 		//Log.d(TAG, "---2 onCreate")
 		super.onCreate(savedInstanceState)
-		// viewModel = ViewModelProviders.of(this).get(CrimeFragmentViewModel::class.java)
+
 		viewModel = activity?.run {
 			ViewModelProviders.of(this).get(CrimeFragmentViewModel::class.java)
 		} ?: throw Exception("Invalid Activity")
-		//    val crime = CrimeItem("", Date(123123))
-		//    crime.id
 	}
 
 	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
