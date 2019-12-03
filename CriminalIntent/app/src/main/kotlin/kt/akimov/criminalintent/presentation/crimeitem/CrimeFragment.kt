@@ -20,46 +20,46 @@ import kotlinx.android.synthetic.main.fragment_crime.*
 
 class CrimeFragment : Fragment() {
 
-	private lateinit var viewModel: CrimeFragmentViewModel
+  private lateinit var viewModel: CrimeFragmentViewModel
 
-	override fun onCreate(savedInstanceState: Bundle?) {
-		//Log.d(TAG, "---2 onCreate")
-		super.onCreate(savedInstanceState)
+  override fun onCreate(savedInstanceState: Bundle?) {
+    //Log.d(TAG, "---2 onCreate")
+    super.onCreate(savedInstanceState)
 
-		viewModel = activity?.run {
-			ViewModelProviders.of(this).get(CrimeFragmentViewModel::class.java)
-		} ?: throw Exception("Invalid Activity")
-	}
+    viewModel = activity?.run {
+      ViewModelProviders.of(this).get(CrimeFragmentViewModel::class.java)
+    } ?: throw Exception("Invalid Activity")
+  }
 
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		//Log.d(TAG, "---3 onCreateView")
-		var v = inflater.inflate(R.layout.fragment_crime, container, false)
-		return v;
-	}
+  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    //Log.d(TAG, "---3 onCreateView")
+    var v = inflater.inflate(R.layout.fragment_crime, container, false)
+    return v;
+  }
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
-		crimeTitleEditText.addTextChangedListener(object : TextWatcher {
-			override fun afterTextChanged(s: Editable?) {}
+    crimeTitleEditText.addTextChangedListener(object : TextWatcher {
+      override fun afterTextChanged(s: Editable?) {}
 
-			override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+      override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-			override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-				viewModel.setTitle(s.toString())
-			}
-		})
+      override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        viewModel.setTitle(s.toString())
+      }
+    })
 
-		crimeDateBtn.text = viewModel.getDate()?.toString() ?: ""
-		crimeDateBtn.isEnabled = false
+    crimeDateBtn.text = viewModel.getDate()?.toString() ?: ""
+    crimeDateBtn.isEnabled = false
 
-		crimeSolvedChBx.setOnCheckedChangeListener(object : OnCheckedChangeListener {
-			override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-				viewModel.setSolved(isChecked)
-			}
-		})
-	}
+    crimeSolvedChBx.setOnCheckedChangeListener(object : OnCheckedChangeListener {
+      override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        viewModel.setSolved(isChecked)
+      }
+    })
+  }
 
-	/*override fun onAttach(context: Context?) {
+  /*override fun onAttach(context: Context?) {
 		super.onAttach(context)
 		Log.d(TAG, "---1 OnAttach")
 	}
