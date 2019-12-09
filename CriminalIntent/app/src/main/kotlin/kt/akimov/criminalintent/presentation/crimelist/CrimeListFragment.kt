@@ -16,43 +16,43 @@ import kt.akimov.criminalintent.domain.models.CrimeItem
 
 class CrimeListFragment : Fragment() {
 
-  private var crimeAdapter: CrimeAdapter
+    private var crimeAdapter: CrimeAdapter
 
-  init {
-    crimeAdapter = CrimeAdapter()
-  }
+    init {
+        crimeAdapter = CrimeAdapter()
+    }
 
-  private lateinit var viewModel: CrimeListFragmentViewModel
+    private lateinit var viewModel: CrimeListFragmentViewModel
 
-  override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-    val v = inflater.inflate(R.layout.fragment_crime_list, container, false)
-    return v
-  }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val v = inflater.inflate(R.layout.fragment_crime_list, container, false)
+        return v
+    }
 
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    viewModel = activity?.run {
-      ViewModelProviders.of(this).get(CrimeListFragmentViewModel::class.java)
-    } ?: throw Exception("Invalid Activity")
+        viewModel = activity?.run {
+            ViewModelProviders.of(this).get(CrimeListFragmentViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
 
-    setupCrimeRecyclerView()
-    loadData()
-  }
+        setupCrimeRecyclerView()
+        loadData()
+    }
 
-  private fun loadData() {
-    crimeAdapter.setItems(viewModel.getCrimes())
-  }
+    private fun loadData() {
+        crimeAdapter.setItems(viewModel.getCrimes())
+    }
 
-  private var onItemClick: (CrimeItem) -> Unit = {
-    Toast.makeText(activity, "${it.title} clicked!", Toast.LENGTH_LONG).show()
-  }
+    private var onItemClick: (CrimeItem) -> Unit = {
+        Toast.makeText(activity, "${it.title} clicked!", Toast.LENGTH_LONG).show()
+    }
 
-  private fun setupCrimeRecyclerView() {
-    crime_recycler_view.adapter = crimeAdapter
-    crime_recycler_view.setHasFixedSize(true)
-    crime_recycler_view.layoutManager = LinearLayoutManager(activity)
+    private fun setupCrimeRecyclerView() {
+        crime_recycler_view.adapter = crimeAdapter
+        crime_recycler_view.setHasFixedSize(true)
+        crime_recycler_view.layoutManager = LinearLayoutManager(activity)
 
-    crimeAdapter.onItemClick = this.onItemClick
-  }
+        crimeAdapter.onItemClick = this.onItemClick
+    }
 }
