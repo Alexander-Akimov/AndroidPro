@@ -3,9 +3,16 @@ package kt.akimov.criminalintent.presentation.crimelist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import kg.dostek.criminalintent.R
 import kotlinx.android.synthetic.main.list_item_crime.view.*
+import kotlinx.android.synthetic.main.list_item_crime.view.date
+import kotlinx.android.synthetic.main.list_item_crime.view.solved
+import kotlinx.android.synthetic.main.list_item_crime.view.title
+import kotlinx.android.synthetic.main.list_item_crime_police.view.*
 import kt.akimov.criminalintent.domain.models.CrimeItem
 
 class CrimeAdapter : RecyclerView.Adapter<CrimeAdapter.CrimeBaseViewHolder>() {
@@ -23,24 +30,29 @@ class CrimeAdapter : RecyclerView.Adapter<CrimeAdapter.CrimeBaseViewHolder>() {
 //        }
 //    return CrimeViewHolder(itemCrimeView).listen { position, type -> onItemClick.invoke(crimesList[position]) }
 
+//        return CrimeBaseViewHolder(
+//                layoutInflater.inflate(R.layout.list_item_crime, parent, false))
+
         return when (viewType) {
-            CrimeViewType.RequiresPolice.value -> CrimeViewHolder(
-                    layoutInflater.inflate(R.layout.list_item_crime_police, parent, false)
-            ).listen { position, _ -> onItemClick.invoke(crimesList[position]) }
-            else -> CrimeRequiresPoliceViewHolder(
-                    layoutInflater.inflate(R.layout.list_item_crime, parent, false)
-            ).listen { position, _ -> onItemClick.invoke(crimesList[position]) }
+            CrimeViewType.RequiresPolice.value ->
+                CrimeRequiresPoliceViewHolder(
+                        layoutInflater.inflate(R.layout.list_item_crime_police, parent, false)
+                ).listen { position, _ -> onItemClick.invoke(crimesList[position]) }
+            else ->
+                CrimeViewHolder(
+                        layoutInflater.inflate(R.layout.list_item_crime, parent, false)
+                ).listen { position, _ -> onItemClick.invoke(crimesList[position]) }
         }
     }
 
     fun setItems(items: List<CrimeItem>) {
         //crimesList = null
         crimesList = items
+        notifyDataSetChanged()
     }
 
-    override fun getItemCount(): Int {
-        return crimesList.size
-    }
+    override fun getItemCount() = crimesList.size
+
 
     override fun onBindViewHolder(holder: CrimeBaseViewHolder, position: Int) {
         val crime = crimesList[position]
@@ -61,17 +73,23 @@ class CrimeAdapter : RecyclerView.Adapter<CrimeAdapter.CrimeBaseViewHolder>() {
         return this
     }
 
-    open class CrimeBaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    abstract class CrimeBaseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
         fun bindCrime(crimeItem: CrimeItem) {
-            itemView.list_item_crime_title_text_view.text = crimeItem.title
-            itemView.list_item_crime_date_text_view.text = crimeItem.date.toString()
-            itemView.list_item_crime_solved_check_box.isChecked = crimeItem.isSolved
+            itemView.title.text = crimeItem.title
+            itemView.date.text = crimeItem.date.toString()
+            itemView.solved.isChecked = crimeItem.isSolved
         }
     }
 
     class CrimeViewHolder(view: View) : CrimeBaseViewHolder(view) {}
 
-    class CrimeRequiresPoliceViewHolder(view: View) : CrimeBaseViewHolder(view) {}
+    class CrimeRequiresPoliceViewHolder : CrimeBaseViewHolder {
+        constructor(view: View) : super(view) {
+            Picasso.get().load(R.drawable.ic_call_police).into(itemView.policeimg)
+        }
+
+    }
 
     enum class CrimeViewType(val value: Int) {
         Default(0),

@@ -10,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.use.dagger.ui.main.posts.PostsRecyclerAdapter
+import com.use.dagger.util.VerticalSpacingItemDecoration
 import kg.dostek.criminalintent.R
 import kotlinx.android.synthetic.main.fragment_crime_list.*
 import kt.akimov.criminalintent.domain.models.CrimeItem
@@ -45,14 +47,21 @@ class CrimeListFragment : Fragment() {
     }
 
     private var onItemClick: (CrimeItem) -> Unit = {
-        Toast.makeText(activity, "${it.title} clicked!", Toast.LENGTH_LONG).show()
+        Toast.makeText(activity, "${it.title} clicked!", Toast.LENGTH_SHORT).show()
     }
 
     private fun setupCrimeRecyclerView() {
-        crime_recycler_view.adapter = crimeAdapter
-        crime_recycler_view.setHasFixedSize(true)
         crime_recycler_view.layoutManager = LinearLayoutManager(activity)
-
-        crimeAdapter.onItemClick = this.onItemClick
+        crime_recycler_view.setHasFixedSize(true)
+        crime_recycler_view.setItemViewCacheSize(20)
+//        crime_recycler_view.setDrawingCacheEnabled(true)
+//        crime_recycler_view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH)
+        crimeAdapter.setHasStableIds(true)
+        //crime_recycler_view.isNestedScrollingEnabled = false
+        val itemDecoration =
+                VerticalSpacingItemDecoration(15)// could also provide this as dependency
+        crime_recycler_view.addItemDecoration(itemDecoration)
+       // crimeAdapter.onItemClick = this.onItemClick
+        crime_recycler_view.adapter = crimeAdapter
     }
 }

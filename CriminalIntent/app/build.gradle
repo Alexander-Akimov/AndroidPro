@@ -55,4 +55,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     implementation 'com.jakewharton.rxbinding3:rxbinding-recyclerview:3.1.0'
+
+    // Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
