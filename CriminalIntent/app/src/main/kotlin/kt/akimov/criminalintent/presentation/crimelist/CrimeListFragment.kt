@@ -18,11 +18,7 @@ import kt.akimov.criminalintent.domain.models.CrimeItem
 
 class CrimeListFragment : Fragment() {
 
-    private var crimeAdapter: CrimeAdapter
-
-    init {
-        crimeAdapter = CrimeAdapter()
-    }
+    private var crimeAdapter = CrimeAdapter()
 
     private lateinit var viewModel: CrimeListFragmentViewModel
 
@@ -51,17 +47,23 @@ class CrimeListFragment : Fragment() {
     }
 
     private fun setupCrimeRecyclerView() {
-        crime_recycler_view.layoutManager = LinearLayoutManager(activity)
-        crime_recycler_view.setHasFixedSize(true)
-        crime_recycler_view.setItemViewCacheSize(20)
-//        crime_recycler_view.setDrawingCacheEnabled(true)
-//        crime_recycler_view.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH)
         crimeAdapter.setHasStableIds(true)
-        //crime_recycler_view.isNestedScrollingEnabled = false
-        val itemDecoration =
-                VerticalSpacingItemDecoration(15)// could also provide this as dependency
-        crime_recycler_view.addItemDecoration(itemDecoration)
-       // crimeAdapter.onItemClick = this.onItemClick
-        crime_recycler_view.adapter = crimeAdapter
+        //crimeAdapter.onItemClick = this.onItemClick
+        crime_recycler_view.apply {
+            setHasFixedSize(true)
+            setItemViewCacheSize(20)
+//        setDrawingCacheEnabled(true)
+//        setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH)
+            layoutManager = LinearLayoutManager(activity)
+
+            val itemDecoration =
+                    VerticalSpacingItemDecoration(15)// could also provide this as dependency
+            addItemDecoration(itemDecoration)
+
+            adapter = crimeAdapter
+        }
+
+        //isNestedScrollingEnabled = false
+
     }
 }

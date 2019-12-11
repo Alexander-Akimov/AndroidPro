@@ -3,17 +3,16 @@ package kt.akimov.criminalintent.presentation.crimelist
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kg.dostek.criminalintent.R
-import kotlinx.android.synthetic.main.list_item_crime.view.*
 import kotlinx.android.synthetic.main.list_item_crime.view.date
 import kotlinx.android.synthetic.main.list_item_crime.view.solved
 import kotlinx.android.synthetic.main.list_item_crime.view.title
 import kotlinx.android.synthetic.main.list_item_crime_police.view.*
 import kt.akimov.criminalintent.domain.models.CrimeItem
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CrimeAdapter : RecyclerView.Adapter<CrimeAdapter.CrimeBaseViewHolder>() {
 
@@ -30,9 +29,9 @@ class CrimeAdapter : RecyclerView.Adapter<CrimeAdapter.CrimeBaseViewHolder>() {
 //        }
 //    return CrimeViewHolder(itemCrimeView).listen { position, type -> onItemClick.invoke(crimesList[position]) }
 
-//        return CrimeBaseViewHolder(
-//                layoutInflater.inflate(R.layout.list_item_crime, parent, false))
-
+        /* return CrimeViewHolder(
+				 layoutInflater.inflate(R.layout.list_item_crime, parent, false))
+ */
         return when (viewType) {
             CrimeViewType.RequiresPolice.value ->
                 CrimeRequiresPoliceViewHolder(
@@ -77,7 +76,7 @@ class CrimeAdapter : RecyclerView.Adapter<CrimeAdapter.CrimeBaseViewHolder>() {
 
         fun bindCrime(crimeItem: CrimeItem) {
             itemView.title.text = crimeItem.title
-            itemView.date.text = crimeItem.date.toString()
+            itemView.date.text = crimeItem.dateStr
             itemView.solved.isChecked = crimeItem.isSolved
         }
     }
@@ -86,7 +85,7 @@ class CrimeAdapter : RecyclerView.Adapter<CrimeAdapter.CrimeBaseViewHolder>() {
 
     class CrimeRequiresPoliceViewHolder : CrimeBaseViewHolder {
         constructor(view: View) : super(view) {
-            Picasso.get().load(R.drawable.ic_call_police).into(itemView.policeimg)
+            Picasso.get().load(R.drawable.ic_call_police).into(itemView.police_img)
         }
 
     }
