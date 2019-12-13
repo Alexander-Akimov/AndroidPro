@@ -4,13 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewParent
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.use.dagger.ui.main.posts.PostsRecyclerAdapter
 import com.use.dagger.util.VerticalSpacingItemDecoration
 import kg.dostek.criminalintent.R
 import kotlinx.android.synthetic.main.fragment_crime_list.*
