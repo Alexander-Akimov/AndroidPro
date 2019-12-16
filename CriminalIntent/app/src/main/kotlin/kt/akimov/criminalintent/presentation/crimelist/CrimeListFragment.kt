@@ -44,11 +44,11 @@ class CrimeListFragment : Fragment() {
     }
 
     private fun setupCrimeRecyclerView() {
-        crimeAdapter.setHasStableIds(true)
+        crimeAdapter.setHasStableIds(false)
         //crimeAdapter.onItemClick = this.onItemClick
         crime_recycler_view.apply {
             setHasFixedSize(true)
-            setItemViewCacheSize(20)
+          //  setItemViewCacheSize(20)
 //        setDrawingCacheEnabled(true)
 //        setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH)
             layoutManager = LinearLayoutManager(activity)

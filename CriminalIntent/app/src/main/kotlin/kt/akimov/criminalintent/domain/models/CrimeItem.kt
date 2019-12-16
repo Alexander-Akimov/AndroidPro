@@ -22,7 +22,7 @@ data class CrimeItem(var title: String? = null,
     var date: Date? = null
 
     var dateStr: String? = ""
-        get() = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).format(date)
+        get() = SimpleDateFormat("E, yyyy-MM-dd HH:mm:ss", Locale.US).format(date)
         private set
 
     init {
