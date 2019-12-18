@@ -1,6 +1,7 @@
 package kt.akimov.criminalintent.presentation.crimeitem
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,7 +17,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import kg.dostek.criminalintent.R
 import android.widget.CompoundButton.OnCheckedChangeListener
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_crime.*
+import kt.akimov.criminalintent.domain.models.CrimeItem
+import java.util.*
 
 class CrimeFragment : Fragment() {
 
@@ -25,10 +29,6 @@ class CrimeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         //Log.d(TAG, "---2 onCreate")
         super.onCreate(savedInstanceState)
-
-        viewModel = activity?.run {
-            ViewModelProviders.of(this).get(CrimeFragmentViewModel::class.java)
-        } ?: throw Exception("Invalid Activity")
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -38,6 +38,16 @@ class CrimeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        viewModel = activity?.run {
+            ViewModelProviders.of(this).get(CrimeFragmentViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+
+        subscribeObservers()
+
+        val crimeId = activity?.intent?.getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID) as UUID?
+
+        viewModel.getCrimeItemById(crimeId)
 
         crimeTitleEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
@@ -49,14 +59,22 @@ class CrimeFragment : Fragment() {
             }
         })
 
-        crimeDateBtn.text = viewModel.getDate()?.toString() ?: ""
-        crimeDateBtn.isEnabled = false
-
         crimeSolvedChBx.setOnCheckedChangeListener(object : OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
                 viewModel.setSolved(isChecked)
             }
         })
+    }
+
+    private fun subscribeObservers() {
+        val crimeObserver = Observer<CrimeItem> {
+            crimeDateBtn.text = it.dateStr
+            crimeDateBtn.isEnabled = false
+            crimeTitleEditText.setText(it.title)
+            crimeSolvedChBx.isChecked = it.isSolved
+        }
+
+        viewModel.currentCrimeItem.observe(viewLifecycleOwner, crimeObserver)
     }
 
     /*override fun onAttach(context: Context?) {
