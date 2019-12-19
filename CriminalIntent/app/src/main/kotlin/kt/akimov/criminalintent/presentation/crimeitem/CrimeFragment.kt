@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProviders
 import kg.dostek.criminalintent.R
 import android.widget.CompoundButton.OnCheckedChangeListener
 import androidx.lifecycle.Observer
+import androidx.core.os.bundleOf
 import kotlinx.android.synthetic.main.fragment_crime.*
 import kt.akimov.criminalintent.domain.models.CrimeItem
 import java.util.*
@@ -25,6 +26,18 @@ import java.util.*
 class CrimeFragment : Fragment() {
 
     private lateinit var viewModel: CrimeFragmentViewModel
+
+    companion object {
+        val ARG_CRIME_ID = "crime_id"
+        fun newInstance(crimeId: UUID): CrimeFragment {
+            val bundle = bundleOf(
+                    ARG_CRIME_ID to crimeId
+            )
+            val fragment = CrimeFragment()
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //Log.d(TAG, "---2 onCreate")
@@ -45,7 +58,8 @@ class CrimeFragment : Fragment() {
 
         subscribeObservers()
 
-        val crimeId = activity?.intent?.getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID) as UUID?
+        //val crimeId = activity?.intent?.getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID) as UUID?
+        val crimeId = arguments?.getSerializable(ARG_CRIME_ID) as UUID?
 
         viewModel.getCrimeItemById(crimeId)
 
