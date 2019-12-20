@@ -2,10 +2,12 @@ package kg.dostek.criminalintent;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,13 +51,13 @@ public class CrimeListFragment extends Fragment {
     }
 
     private void updateUI() {
-        ItemViewClick handle = (Crime cr) -> {
+        ItemViewClick handle = (Crime cr, int position) -> {
             //Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!",  Toast.LENGTH_SHORT).show();
-            //Intent intent = CrimeActivity.newIntent(getActivity(), mCrime.getId(), mPosition);
-            //startActivityForResult(intent, REQUEST_CRIME);
+            Intent intent = CrimeActivity.newIntent(getActivity(), cr.getId(), position);
+            startActivityForResult(intent, REQUEST_CRIME);
 
-            Intent intent = CrimePagerActivity.newIntent(getActivity(), cr.getId());
-            startActivity(intent);
+//            Intent intent = CrimePagerActivity.newIntent(getActivity(), cr.getId());
+//            startActivity(intent);
         };
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
@@ -87,16 +89,19 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public CrimeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
             View view = layoutInflater.inflate(R.layout.list_item_crime, parent, false);
 
-            return new CrimeViewHolder(view, mItemClick);
+            CrimeViewHolder vh = new CrimeViewHolder(view);
+            vh.itemView.setOnClickListener((View v) ->
+                    mItemClick.handleClick(mCrimes.get(vh.getAdapterPosition()), vh.getAdapterPosition()));
+            return vh;
         }
 
         @Override
         public void onBindViewHolder(CrimeViewHolder holder, int position) {
             Crime crime = mCrimes.get(position);
-            holder.bindCrime(crime, position);
+            holder.bindCrime(crime);
         }
 
         @Override
@@ -111,28 +116,20 @@ public class CrimeListFragment extends Fragment {
         private TextView mTitleTextView;
         private TextView mDateTextView;
         private CheckBox mSolvedCheckBox;
-        private final ItemViewClick mItemClick;
 
-        private int mPosition;
-
-        public CrimeViewHolder(View itemView, ItemViewClick itemClick) {
+        public CrimeViewHolder(View itemView) {
             super(itemView);
-            mItemClick = itemClick;
 
             mTitleTextView = (TextView) itemView.findViewById(R.id.title);
             mDateTextView = (TextView) itemView.findViewById(R.id.date);
             mSolvedCheckBox = (CheckBox) itemView.findViewById(R.id.solved);
         }
 
-        public void bindCrime(Crime crime, int position) {
-
+        public void bindCrime(Crime crime) {
             mCrime = crime;
-            mPosition = position;
             mTitleTextView.setText(mCrime.getTitle());
             mDateTextView.setText(mCrime.getDate().toString());
             mSolvedCheckBox.setChecked(mCrime.isSolved());
-
-            itemView.setOnClickListener((view) -> mItemClick.handleClick(crime));
         }
     }
 }

@@ -20,6 +20,17 @@
         <activity android:name="kt.akimov.criminalintent.presentation.crimeitem.CrimeActivity">
 
         </activity>
+<!--        <activity android:name="CrimeListActivity">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--                <action android:name="android.intent.action.VIEW" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
+<!--        <activity android:name="CrimeActivity">-->
+
+<!--        </activity>-->
 
         <activity
             android:name=".CrimePagerActivity"

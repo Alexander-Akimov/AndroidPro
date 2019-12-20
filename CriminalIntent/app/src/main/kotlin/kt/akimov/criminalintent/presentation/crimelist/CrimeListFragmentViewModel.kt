@@ -12,8 +12,14 @@ class CrimeListFragmentViewModel : ViewModel() {
 
     val observableCrimeItems: LiveData<List<CrimeItem>> = items
 
+    var currentPosition: Int = -1
+
     fun getCrimes() {
         items.value = CrimeLab.getCrimes()//TODO: temporary solution
+    }
+
+    fun setPosition(position: Int) {
+        currentPosition = position
     }
 
 //  override fun onCleared() {

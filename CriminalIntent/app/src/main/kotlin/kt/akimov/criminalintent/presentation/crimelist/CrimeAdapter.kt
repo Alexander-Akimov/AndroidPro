@@ -17,7 +17,7 @@ import kt.akimov.criminalintent.domain.models.CrimeItem
 
 class CrimeAdapter : RecyclerView.Adapter<CrimeAdapter.CrimeBaseViewHolder>() {
 
-    var onItemClick: (CrimeItem) -> Unit = {}
+    var onItemClick: (CrimeItem, Int) -> Unit = { _, _ -> }
     private var crimesList: List<CrimeItem> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrimeBaseViewHolder {
@@ -34,15 +34,11 @@ class CrimeAdapter : RecyclerView.Adapter<CrimeAdapter.CrimeBaseViewHolder>() {
 		  layoutInflater.inflate(R.layout.list_item_crime, parent, false))
 */
         return when (viewType) {
-            CrimeViewType.RequiresPolice.value ->
-                CrimeRequiresPoliceViewHolder(
-                        layoutInflater.inflate(R.layout.list_item_crime_police_constr_layout, parent, false)
-                ).listen { position, _ -> onItemClick.invoke(crimesList[position]) }
-            else ->
-                CrimeViewHolder(
-                        layoutInflater.inflate(R.layout.list_item_crime_constr_layout, parent, false)
-                ).listen { position, _ -> onItemClick.invoke(crimesList[position]) }
-        }
+            CrimeViewType.RequiresPolice.value -> CrimeRequiresPoliceViewHolder(
+                    layoutInflater.inflate(R.layout.list_item_crime_police_constr_layout, parent, false))
+            else -> CrimeViewHolder(
+                    layoutInflater.inflate(R.layout.list_item_crime_constr_layout, parent, false))
+        }.listen { position, _ -> onItemClick.invoke(crimesList[position], position) }
     }
 
     fun setItems(items: List<CrimeItem>) {
@@ -87,7 +83,6 @@ class CrimeAdapter : RecyclerView.Adapter<CrimeAdapter.CrimeBaseViewHolder>() {
         constructor(view: View) : super(view) {
             //Picasso.get().load(R.drawable.ic_call_police).into(itemView.police_img)
         }
-
     }
 
     enum class CrimeViewType(val value: Int) {

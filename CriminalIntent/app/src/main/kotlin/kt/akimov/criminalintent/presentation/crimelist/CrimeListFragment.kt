@@ -39,31 +39,42 @@ class CrimeListFragment : Fragment() {
         loadData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.currentPosition != -1)
+            crimeAdapter.notifyItemChanged(viewModel.currentPosition)
+        else
+            crimeAdapter.notifyDataSetChanged()
+    }
+
     private fun loadData() {
         viewModel.getCrimes()
     }
 
-    private fun subscribeObservers(){
+    private fun subscribeObservers() {
         val crimeObserver = Observer<List<CrimeItem>> {
             crimeAdapter.setItems(it)
         }
         viewModel.observableCrimeItems.observe(viewLifecycleOwner, crimeObserver)
     }
 
-    private var onItemClick: (CrimeItem) -> Unit = {
-       // Toast.makeText(activity, "${it.title} clicked!", Toast.LENGTH_SHORT).show()
+    private var onItemClick: (CrimeItem, Int) -> Unit = { crimeItem, position ->
+        // Toast.makeText(activity, "${it.title} clicked!", Toast.LENGTH_SHORT).show()
 
-        val intent = CrimeActivity.newIntent(activity?.baseContext, it.id)
+        viewModel.setPosition(position)
+
+        val intent = CrimeActivity.newIntent(activity?.baseContext, crimeItem.id)
 
         startActivity(intent)
     }
+
 
     private fun setupCrimeRecyclerView() {
         crimeAdapter.setHasStableIds(false)
         crimeAdapter.onItemClick = this.onItemClick
         crime_recycler_view.apply {
             setHasFixedSize(true)
-          //  setItemViewCacheSize(20)
+            //  setItemViewCacheSize(20)
 //        setDrawingCacheEnabled(true)
 //        setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH)
             layoutManager = LinearLayoutManager(activity)
