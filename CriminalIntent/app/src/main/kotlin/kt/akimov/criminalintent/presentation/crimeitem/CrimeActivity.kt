@@ -16,7 +16,7 @@ class CrimeActivity : SingleFragmentActivity() {
     }
 
     companion object {
-        private val EXTRA_CRIME_ID = "kt.akimov.criminalintent.crime_id"
+        private const val EXTRA_CRIME_ID = "kt.akimov.criminalintent.crime_id"
         fun newIntent(packageContext: Context?, crimeId: UUID): Intent {
             val intent = Intent(packageContext, CrimeActivity::class.java)
             intent.putExtra(EXTRA_CRIME_ID, crimeId)

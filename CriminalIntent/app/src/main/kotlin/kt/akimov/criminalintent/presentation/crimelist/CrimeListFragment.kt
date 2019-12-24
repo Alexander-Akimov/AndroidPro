@@ -15,6 +15,7 @@ import kg.dostek.criminalintent.R
 import kotlinx.android.synthetic.main.fragment_crime_list.*
 import kt.akimov.criminalintent.domain.models.CrimeItem
 import kt.akimov.criminalintent.presentation.crimeitem.CrimeActivity
+import kt.akimov.criminalintent.presentation.crimepager.CrimePagerActivity
 
 class CrimeListFragment : Fragment() {
 
@@ -63,7 +64,8 @@ class CrimeListFragment : Fragment() {
 
         viewModel.setPosition(position)
 
-        val intent = CrimeActivity.newIntent(activity?.baseContext, crimeItem.id)
+        //val intent = CrimeActivity.newIntent(activity?.baseContext, crimeItem.id)
+        val intent = CrimePagerActivity.newIntent(activity?.baseContext, crimeItem.id)
 
         startActivity(intent)
     }
