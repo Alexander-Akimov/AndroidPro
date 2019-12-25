@@ -40,7 +40,7 @@ class CrimeListFragment : Fragment() {
         loadData()
     }
 
-    override fun onResume() {
+    override fun onResume() { // после того возврата из CrimeActivity на экран  CrimeListFragment
         super.onResume()
         if (viewModel.currentPosition != -1)
             crimeAdapter.notifyItemChanged(viewModel.currentPosition)

@@ -20,6 +20,7 @@ import android.widget.CompoundButton.OnCheckedChangeListener
 import androidx.lifecycle.Observer
 import androidx.core.os.bundleOf
 import kotlinx.android.synthetic.main.fragment_crime.*
+import kt.akimov.criminalintent.data.CrimeLab
 import kt.akimov.criminalintent.domain.models.CrimeItem
 import java.util.*
 
@@ -42,26 +43,32 @@ class CrimeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         //Log.d(TAG, "---2 onCreate")
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        //Log.d(TAG, "---3 onCreateView")
-        val v = inflater.inflate(R.layout.fragment_crime, container, false)
-        return v
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         viewModel = activity?.run {
             ViewModelProviders.of(this).get(CrimeFragmentViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
-        subscribeObservers()
-
         //val crimeId = activity?.intent?.getSerializableExtra(CrimeActivity.EXTRA_CRIME_ID) as UUID?
-        val crimeId = arguments?.getSerializable(ARG_CRIME_ID) as UUID?
+    }
 
-        viewModel.getCrimeItemById(crimeId)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        //Log.d(TAG, "---3 onCreateView")
+        val v = inflater.inflate(R.layout.fragment_crime, container, false)
+        //
+        return v
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val crimeId = arguments?.getSerializable(ARG_CRIME_ID) as UUID
+
+        var crime = CrimeLab.getCrime(crimeId)
+        //subscribeObservers()
+        //viewModel.getCrimeItemById(crimeId)
+
+        crimeDateBtn.text = crime?.dateStr
+        crimeDateBtn.isEnabled = false
+        crimeTitleEditText.setText(crime?.title)
+        crimeSolvedChBx.isChecked = crime?.isSolved ?: false
 
         crimeTitleEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {}
@@ -69,18 +76,20 @@ class CrimeFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                //viewModel.setTitle(s.toString())
+                viewModel.setTitle(s.toString())
             }
         })
 
         crimeSolvedChBx.setOnCheckedChangeListener(object : OnCheckedChangeListener {
             override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
-                //viewModel.setSolved(isChecked)
+                viewModel.setSolved(isChecked)
             }
         })
     }
 
     private fun subscribeObservers() {
+        //viewModel.currentCrimeItem.removeObservers(viewLifecycleOwner)
+
         val crimeObserver = Observer<CrimeItem> {
             crimeDateBtn.text = it.dateStr
             crimeDateBtn.isEnabled = false

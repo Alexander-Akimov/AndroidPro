@@ -53,11 +53,11 @@ public class CrimeListFragment extends Fragment {
     private void updateUI() {
         ItemViewClick handle = (Crime cr, int position) -> {
             //Toast.makeText(getActivity(), mCrime.getTitle() + " clicked!",  Toast.LENGTH_SHORT).show();
-            Intent intent = CrimeActivity.newIntent(getActivity(), cr.getId(), position);
-            startActivityForResult(intent, REQUEST_CRIME);
+//            Intent intent = CrimeActivity.newIntent(getActivity(), cr.getId(), position);
+//            startActivityForResult(intent, REQUEST_CRIME);
 
-//            Intent intent = CrimePagerActivity.newIntent(getActivity(), cr.getId());
-//            startActivity(intent);
+            Intent intent = CrimePagerActivity.newIntent(getActivity(), cr.getId());
+            startActivity(intent);
         };
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimes = crimeLab.getCrimes();
