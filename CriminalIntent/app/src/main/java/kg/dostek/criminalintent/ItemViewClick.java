@@ -1,5 +1,5 @@
 package kg.dostek.criminalintent;
 
 public interface ItemViewClick {
-     void handleClick(Crime crime);
+     void handleClick(Crime crime, int position);
 }
