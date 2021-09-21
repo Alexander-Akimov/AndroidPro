@@ -6,10 +6,9 @@ import android.view.View
 import android.widget.Toast
 import com.akimov.geoquiz.R
 
-import com.akimov.geoquiz.models.Question
-import com.akimov.geoquiz.presentation.presenter.IMainPresenter
-import com.akimov.geoquiz.presentation.presenter.MainPresenter
-import com.akimov.geoquiz.presentation.view.IMainView
+import com.akimov.geoquiz.presentation.main.presenter.IMainPresenter
+import com.akimov.geoquiz.presentation.main.presenter.MainPresenter
+import com.akimov.geoquiz.presentation.main.view.IMainView
 import kotlinx.android.synthetic.main.activity_quiz.*
 
 class QuizActivity : BaseActivity(), IMainView {

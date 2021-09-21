@@ -1,6 +1,6 @@
 package kg.dostek.criminalintent;
 
-;
+
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +19,7 @@ public class DatePickerFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.date_picker_title)
-                .setPositiveButton(ok, null).create();
+                .setPositiveButton(ok, null)
+                .create();
     }
 }

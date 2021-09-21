@@ -1,8 +1,8 @@
-package com.akimov.geoquiz.presentation.presenter
+package com.akimov.geoquiz.presentation.main.presenter
 
 import com.akimov.geoquiz.R
 import com.akimov.geoquiz.models.Question
-import com.akimov.geoquiz.presentation.view.IMainView
+import com.akimov.geoquiz.presentation.main.view.IMainView
 
 /**
  * Created by lex on 9/1/18.
